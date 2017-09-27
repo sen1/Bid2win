@@ -1,0 +1,34 @@
+<html>
+  <head>
+     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+
+ </head>
+
+ <body>
+
+
+<div class="container">
+<div class="main">
+<form action="/auction_item" method="post" name="form_name" id="form_id" class="form_class" >
+<h2>Auction item query form</h2>
+<label>Auction ID :</label>
+<input type="text" name="auction_id" id="auction_id" placeholder="AuctionID" />
+<br></br>
+<label>Auctioner Name:</label>
+<input type="text" name="auctioner_name" id="auctioner_name" placeholder="AuctionerName" />
+<br></br>
+<input type="submit" class="login-button" value = "Login" name = "login">
+<br></br>
+</div>
+</div>
+
+
+
+<script type="text/javascript">
+document.getElementById("form_name").submit()
+</script>
+
+  </body>
+</html>

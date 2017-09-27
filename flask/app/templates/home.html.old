@@ -1,0 +1,35 @@
+<html>
+<head>
+<meta charset="UTF-8">
+  <title>Auctions</title>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+<script>window.jQuery || document.write('<script src="{{
+  url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+<style>
+p.damian {
+    color: #fff;
+    font-family: 'Nunito', sans-serif;
+    /* font-weight: normal; */
+    font-size: 1em;
+    padding: 10px 10px 10px 20px;
+}
+
+</style>
+</head>
+
+<body>
+<h1 class = "header"> Make-an-offer </h1>
+
+<script type='text/javascript' src='script.js'></script>
+
+<div class="contain">
+{% for i in data%}
+
+
+<p> Auction ID, {{i.auction_id}}, Auctioner_id, {{i.auctioner_id}}, Item, {{i.item}} </p>
+
+</div>
+{%endfor%}
+</body>
+</html>

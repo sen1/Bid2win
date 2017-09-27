@@ -1,0 +1,109 @@
+<html>
+  <head>
+     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+var json_data;
+
+function test_func(data) {
+        json_data = data;     
+}
+
+test_func({{data|safe}})
+google.charts.load('current', {'packages':['table']});
+google.charts.setOnLoadCallback(drawChart);
+
+
+console.log(json_data);
+
+rows = []
+for (var key in json_data) {
+   if (json_data.hasOwnProperty(key)) {
+    rows.push([json_data[key]['auction_id'], json_data[key]['item'], json_data[key]['create_time'],json_data[key]['starting_price'],json_data[key]['auctioner_name'], json_data[key]['winning_price'], json_data[key]['winner'], json_data[key]['latest_bid_time'],!!json_data[key]['expired'] ]);
+   }
+}
+console.log(rows)
+
+function drawChart() {
+      //var data = new google.visualization.DataTable(json_data);
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Auction ID');
+      data.addColumn('string', 'Item');
+      data.addColumn('string','Create Time');
+      data.addColumn('number', 'Starting price');
+      data.addColumn('string','Auctioner name');
+      data.addColumn('number','Winning Price');
+      data.addColumn('number','Winner ID');
+      data.addColumn('string','Latest bid time');
+      data.addColumn('boolean', 'Expired');
+      data.addRows(rows);
+
+      var options = {
+        chart: {
+          title: 'Well Depth',
+          subtitle: 'Well #1'
+        },
+        width: 900,
+        height: 500,
+        hAxis: {slantedText:true, slantedTextAngle:45}
+
+      };
+
+      var table = new google.visualization.Table(document.getElementById('table_div'));
+
+        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+
+
+    function selectHandler() {
+    //var selectedItem = table.getSelection();
+    var selection = table.getSelection();
+    var message = '';
+  for (var i = 0; i < selection.length; i++) {
+    var item = selection[i];
+    if (item.row != null && item.column != null) {
+      var str = data.getFormattedValue(item.row, item.column);
+      message += '{row:' + item.row + ',column:' + item.column + '} = ' + str + '\n';
+    } else if (item.row != null) {
+      var str = data.getFormattedValue(item.row, 0);
+      message += '{row:' + item.row + ', column:none}; value (col 0) = ' + str + '\n';
+    } else if (item.column != null) {
+      var str = data.getFormattedValue(0, item.column);
+      message += '{row:none, column:' + item.column + '}; value (row 0) = ' + str + '\n';
+    }
+  }
+  if (message == '') {
+    message = 'nothing';
+  }
+   
+  //alert('You selected ' + message);
+  //alert("{{ url_for('auction_item') }}" + "?auction_id=" + str);
+  window.location.href="{{ url_for('auction_item') }}" + "?auction_id=" + str;
+
+  //  if (selectedItem) {
+  //    var value = data.getValue(selectedItem.row, selectedItem.column);
+  //    alert('The user selected ' + value);
+  //  }
+     }
+
+      google.visualization.events.addListener(table, 'select', selectHandler);
+
+    }
+
+
+  </script>
+</head>
+<body>
+
+  <div id="linechart_material"></div>
+
+
+    
+
+    </script>
+  </head>
+  <body>
+    <div id="table_div"></div>
+  </body>
+</html>

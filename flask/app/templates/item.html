@@ -1,0 +1,112 @@
+<html>
+  <head>
+     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+var json_data;
+//var json_data2;
+
+function test_func(data) {
+        json_data = data;     
+}
+
+test_func({{data|safe}})
+var json_data2 = {{data2|safe}}
+
+
+google.charts.load('current', {'packages':['table']});
+google.charts.setOnLoadCallback(drawChart);
+
+
+console.log(json_data2['bid_prices']);
+
+rows = []
+for (var key in json_data) {
+   if (json_data.hasOwnProperty(key)) {
+    rows.push([json_data[key]['auction_id'], json_data[key]['item'], json_data[key]['create_time'],json_data[key]['starting_price'],json_data[key]['auctioner_name'], json_data[key]['winning_price'], json_data[key]['winner'], json_data[key]['latest_bid_time'],!!json_data[key]['expired'] ]);
+   }
+}
+console.log(rows)
+
+function drawChart() {
+      //var data = new google.visualization.DataTable(json_data);
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Auction ID');
+      data.addColumn('string', 'Item');
+      data.addColumn('string','Create Time');
+      data.addColumn('number', 'Starting price');
+      data.addColumn('string','Auctioner name');
+      data.addColumn('number','Winning Price');
+      data.addColumn('number','Winner ID');
+      data.addColumn('string','Latest bid time');
+      data.addColumn('boolean', 'Expired');
+      data.addRows(rows);
+
+      var options = {
+        chart: {
+          title: 'Well Depth',
+          subtitle: 'Well #1'
+        },
+        width: 900,
+        height: 500,
+        hAxis: {slantedText:true, slantedTextAngle:45}
+
+      };
+
+      var table = new google.visualization.Table(document.getElementById('table_div'));
+
+        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+
+      //google.visualization.events.addListener(table, 'select', selectHandler);
+
+    }
+
+
+
+google.charts.load('current', {'packages':['annotatedtimeline']});
+time_rows = []
+for(var i = 0; i < json_data2["bid_prices"].length; i++)
+{
+    time_rows.push([new Date(json_data2["bid_time"][i]), json_data2["bid_prices"][i]]);
+   //if (json_data2.hasOwnProperty(key)) {
+   // rows.push([json_data[key]['auction_id'], json_data[key]['item'], json_data[key]['create_time'],json_data[key]['starting_price'],json_data[key]['auctioner_name'], json_data[key]['winning_price'], json_data[key]['winner'], json_data[key]['latest_bid_time'],!!json_data[key]['expired'] ]);
+   //}
+}
+
+//console.log(time_rows);
+google.charts.setOnLoadCallback(drawChart2);
+
+   function drawChart2() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'Date');
+        data.addColumn('number', 'Bid price');
+        data.addRows(time_rows);
+
+        var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('chart_div'));
+        chart.draw(data, {displayAnnotations: true});
+     }
+
+
+
+
+  </script>
+</head>
+
+
+<body>
+<table>
+      <tr>
+	<td colSpan=2>
+          <div id="table_div" style="align: center; width: 900px; height: 100px;"></div>
+       </td>
+      </tr>
+      <tr>
+        <td colSpan=2>
+          <div id="chart_div" style="align: center; width: 700px; height: 300px;"></div>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
