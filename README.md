@@ -7,5 +7,5 @@ A rough version of my slides can be found at:
 https://docs.google.com/presentation/d/10FMqsi_IQIFw6Wgrt6_NdpVGifQUovG9quY0NqH3yqA/edit#slide=id.p3
 
 A rough version of the website can be found at:
-<a href="bid2win.us">bid2win.us</a>
+<a href="www.bid2win.us">www.bid2win.us</a>
 
